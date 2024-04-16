@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">V2WszystkoWJednym</string>
+    <string name="welcome_text">Miło Cię gościć w mojej aplikacji!</string>
+    <string name="choice_text">Wybierz jedną z poniższych opcji:</string>
+    <string name="bmi_button">Oblicz BMI</string>
+    <string name="measurement_button">Zapisz pomiary</string>
 </resources>
