@@ -4,4 +4,5 @@
     <string name="choice_text">Wybierz jedną z poniższych opcji:</string>
     <string name="bmi_button">Oblicz BMI</string>
     <string name="measurement_button">Zapisz pomiary</string>
+    <string name="error_text">Proszę uzupełnić wszystkie pola</string>
 </resources>

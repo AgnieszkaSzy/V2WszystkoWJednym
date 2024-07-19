@@ -1,5 +1,6 @@
 package com.example.v2wszystkowjednym
 
+import MyExceptionHandler
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,11 +24,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.v2wszystkowjednym.ui.theme.V2WszystkoWJednymTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Thread.setDefaultUncaughtExceptionHandler(MyExceptionHandler(this))
         setContent {
             V2WszystkoWJednymTheme {
                 // A surface container using the 'background' color from the theme
@@ -35,7 +39,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    StartScreen()
+                    val navController = rememberNavController()
+                    AppNavHost(navController = navController)
                 }
             }
         }
@@ -43,7 +48,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun StartScreen() {
+fun StartScreen(navController: NavHostController) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -87,7 +92,7 @@ fun StartScreen() {
         Box(
             contentAlignment = Alignment.Center
         ) {
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { navController.navigate("bmi")}) {
                 Text(text = stringResource(R.string.bmi_button),
                     style = TextStyle(
                         fontSize = 18.sp
@@ -114,10 +119,8 @@ fun StartScreen() {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    StartScreen()
-
-
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun DefaultPreview() {
+//    StartScreen()
+//}

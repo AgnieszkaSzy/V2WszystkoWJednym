@@ -16,7 +16,7 @@ class StartScreenTests {
     val context = InstrumentationRegistry.getInstrumentation().targetContext
 
     @Test
-    fun isWelecomeTextVisible() {
+    fun isWelcomeTextVisible() {
         composeTestRule.setContent {
             StartScreen()
         }
