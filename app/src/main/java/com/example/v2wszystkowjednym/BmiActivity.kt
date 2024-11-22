@@ -21,12 +21,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.v2wszystkowjednym.AppNavHost
 import com.example.v2wszystkowjednym.R
 import com.example.v2wszystkowjednym.ui.theme.V2WszystkoWJednymTheme
+import java.math.BigDecimal
+import java.math.RoundingMode
+import kotlin.math.round
 
 
 class BmiActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Thread.setDefaultUncaughtExceptionHandler(MyExceptionHandler(this))
         setContent {
             V2WszystkoWJednymTheme {
                 // A surface container using the 'background' color from the theme
@@ -207,6 +209,6 @@ fun CalculateBmi(navController: NavHostController) {
     }
 }
 
-private fun calculateBMI(weight: Double, height: Double, navController: NavHostController): Double {
-    return weight / (height * height / 10000)
+private fun calculateBMI(weight: Double, height: Double, navController: NavHostController): BigDecimal {
+    return BigDecimal(weight / (height * height / 10000)).setScale(2, RoundingMode.HALF_UP)
 }
