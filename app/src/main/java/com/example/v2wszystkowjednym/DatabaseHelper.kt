@@ -53,7 +53,7 @@ class DatabaseHelper(context: Context) :
         val db = this.readableDatabase
         val cursor = db.rawQuery("SELECT * FROM measurements", null)
 
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
             do {
                 val date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
                 val height = cursor.getFloat(cursor.getColumnIndexOrThrow("height"))

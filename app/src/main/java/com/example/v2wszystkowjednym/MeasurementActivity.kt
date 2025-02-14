@@ -54,7 +54,7 @@ fun MeasurementActivity(navController: NavHostController, dbHelper: DatabaseHelp
 
         Button(onClick = {
             if (date.isNotEmpty() && height.isNotEmpty() && weight.isNotEmpty()) {
-                dbHelper.insertMeasurement(date, height.toFloat(), weight.toFloat())
+                dbHelper?.insertMeasurement(date, height.toFloat(), weight.toFloat())
             }
         }) {
             Text("Save")

@@ -19,6 +19,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.v2wszystkowjednym.AppNavHost
+import com.example.v2wszystkowjednym.DatabaseHelper
 import com.example.v2wszystkowjednym.R
 import com.example.v2wszystkowjednym.ui.theme.V2WszystkoWJednymTheme
 import java.math.BigDecimal
@@ -29,9 +30,13 @@ import kotlin.math.round
 class BmiActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             V2WszystkoWJednymTheme {
                 // A surface container using the 'background' color from the theme
+                val navController = rememberNavController()
+                val dbHelper = DatabaseHelper(this)
+                AppNavHost(navController = navController, dbHelper = dbHelper)
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
@@ -41,7 +46,7 @@ class BmiActivity : ComponentActivity() {
     }
 }
 @Composable
-fun CalculateBmi(navController: NavHostController) {
+fun CalculateBmi(navController: NavHostController, dbHelper: DatabaseHelper) {
     var gender by remember { mutableStateOf("") }
     var weight by remember { mutableStateOf("") }
     var height by remember { mutableStateOf("") }

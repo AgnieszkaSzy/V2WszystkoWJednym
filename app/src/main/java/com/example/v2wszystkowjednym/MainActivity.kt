@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     val navController = rememberNavController()
-                    AppNavHost(navController = navController)
+                    AppNavHost(navController = navController, dbHelper = DatabaseHelper(applicationContext))
                 }
             }
         }
