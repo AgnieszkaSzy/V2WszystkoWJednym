@@ -14,12 +14,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun MeasurementActivity(navController: NavHostController, dbHelper: DatabaseHelper){
+fun MeasurementScreen(navController: NavHostController, dbHelper: DatabaseHelper){
     var date by remember { mutableStateOf("") }
     var height by remember { mutableStateOf("") }
     var weight by remember { mutableStateOf("") }
@@ -27,7 +27,8 @@ fun MeasurementActivity(navController: NavHostController, dbHelper: DatabaseHelp
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .testTag("MeasurementScreen"),
         verticalArrangement = Arrangement.SpaceBetween) {
         Text(text = "Enter your data:", fontSize = 26.sp)
 

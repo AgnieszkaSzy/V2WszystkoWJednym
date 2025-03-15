@@ -17,7 +17,7 @@ import androidx.compose.foundation.lazy.items
 
 
 @Composable
-fun MeasurementListActivity(navController: NavHostController, dbHelper: DatabaseHelper) {
+fun MeasurementListScreen(navController: NavHostController, dbHelper: DatabaseHelper) {
     val measurements = dbHelper.getAllMeasurements()
 
     Column(

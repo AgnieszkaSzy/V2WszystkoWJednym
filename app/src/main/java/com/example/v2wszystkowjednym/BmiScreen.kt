@@ -2,7 +2,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -11,7 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,29 +25,9 @@ import com.example.v2wszystkowjednym.R
 import com.example.v2wszystkowjednym.ui.theme.V2WszystkoWJednymTheme
 import java.math.BigDecimal
 import java.math.RoundingMode
-import kotlin.math.round
 
-
-class BmiActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setContent {
-            V2WszystkoWJednymTheme {
-                // A surface container using the 'background' color from the theme
-                val navController = rememberNavController()
-                val dbHelper = DatabaseHelper(this)
-                AppNavHost(navController = navController, dbHelper = dbHelper)
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {}
-            }
-        }
-    }
-}
 @Composable
-fun CalculateBmi(navController: NavHostController, dbHelper: DatabaseHelper) {
+fun BmiScreen(navController: NavHostController, dbHelper: DatabaseHelper) {
     var gender by remember { mutableStateOf("") }
     var weight by remember { mutableStateOf("") }
     var height by remember { mutableStateOf("") }
@@ -56,9 +37,10 @@ fun CalculateBmi(navController: NavHostController, dbHelper: DatabaseHelper) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-
+            .testTag("BmiScreen")
     ) {
         val (bmiInfoText, genderText, genderGroup, weightText, weightInput, heightText, heightInput, calculateButton, bmiResultText, clearDataButton, errorText) = createRefs()
+
         Image(
             painter = painterResource(id = R.drawable.background1),
             contentDescription = "blue background",
@@ -67,24 +49,28 @@ fun CalculateBmi(navController: NavHostController, dbHelper: DatabaseHelper) {
         )
 
         Text(
-            text = "BMI Calculator",
+            text = stringResource(R.string.bmi_header),
             fontSize = 24.sp,
             color = Color(0xFF6200EA),
-            modifier = Modifier.constrainAs(bmiInfoText) {
+            modifier = Modifier
+                .constrainAs(bmiInfoText) {
                 top.linkTo(parent.top, margin = 16.dp)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             }
+                .testTag("BmiCalculatorText")
         )
 
         Text(
-            text = "Gender",
+            text = stringResource(R.string.gender_text),
             fontSize = 20.sp,
             color = Color(0xFF6200EA),
-            modifier = Modifier.constrainAs(genderText) {
+            modifier = Modifier
+                .constrainAs(genderText) {
                 top.linkTo(bmiInfoText.bottom, margin = 16.dp)
                 start.linkTo(parent.start, margin = 16.dp)
             }
+                .testTag("GenderText")
         )
 
         Row(
@@ -93,20 +79,29 @@ fun CalculateBmi(navController: NavHostController, dbHelper: DatabaseHelper) {
                     top.linkTo(genderText.bottom, margin = 8.dp)
                     start.linkTo(parent.start)
                 }
+                .testTag("GenderGroup")
         ) {
             RadioButton(
                 selected = gender == "Female",
-                onClick = { gender = "Female" }
+                onClick = { gender = "Female" },
+                modifier = Modifier.testTag("FemaleButton")
             )
-            Text("Female", modifier = Modifier.align(Alignment.CenterVertically))
+            Text(
+                stringResource(R.string.female_radiobutton_text), modifier = Modifier
+                .testTag("FemaleButtonText")
+                .align(Alignment.CenterVertically))
 
             Spacer(modifier = Modifier.width(16.dp))
 
             RadioButton(
                 selected = gender == "Male",
-                onClick = { gender = "Male" }
+                onClick = { gender = "Male" },
+                modifier = Modifier.testTag("MaleButton")
             )
-            Text("Male", modifier = Modifier.align(Alignment.CenterVertically))
+            Text(
+                stringResource(R.string.male_radiobutton_text), modifier = Modifier
+                .testTag("MaleButtonText")
+                .align(Alignment.CenterVertically))
         }
 
         Text(
@@ -117,6 +112,7 @@ fun CalculateBmi(navController: NavHostController, dbHelper: DatabaseHelper) {
                 top.linkTo(genderGroup.bottom, margin = 16.dp)
                 start.linkTo(parent.start, margin = 16.dp)
             }
+                .testTag("WeightText")
         )
 
         OutlinedTextField(
@@ -128,6 +124,7 @@ fun CalculateBmi(navController: NavHostController, dbHelper: DatabaseHelper) {
                 start.linkTo(parent.start, margin = 16.dp)
                 end.linkTo(parent.end)
             }
+                .testTag("WeightInput")
         )
 
         Text(
@@ -138,6 +135,7 @@ fun CalculateBmi(navController: NavHostController, dbHelper: DatabaseHelper) {
                 top.linkTo(weightInput.bottom, margin = 16.dp)
                 start.linkTo(parent.start, margin = 16.dp)
             }
+                .testTag("HeightText")
         )
 
         OutlinedTextField(
@@ -149,6 +147,7 @@ fun CalculateBmi(navController: NavHostController, dbHelper: DatabaseHelper) {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             }
+                .testTag("HeightInput")
         )
 
         Button(
@@ -168,6 +167,7 @@ fun CalculateBmi(navController: NavHostController, dbHelper: DatabaseHelper) {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             }
+                .testTag("CalculateButton")
         ) {
             Text(text = "Calculate BMI")
         }
@@ -181,6 +181,7 @@ fun CalculateBmi(navController: NavHostController, dbHelper: DatabaseHelper) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 }
+                    .testTag("ErrorText")
             )
         }
 
@@ -193,6 +194,7 @@ fun CalculateBmi(navController: NavHostController, dbHelper: DatabaseHelper) {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             }
+                .testTag("BmiResult")
         )
 
         Button(
@@ -208,6 +210,7 @@ fun CalculateBmi(navController: NavHostController, dbHelper: DatabaseHelper) {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             }
+                .testTag("ClearDataButton")
         ) {
             Text(text = "Clear Data")
         }
