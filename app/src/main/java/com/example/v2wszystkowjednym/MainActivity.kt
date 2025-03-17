@@ -48,7 +48,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun StartScreen(navController: NavHostController) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag("StartScreen"),
         contentAlignment = Alignment.Center
     ) {
         Image(
@@ -66,6 +68,7 @@ fun StartScreen(navController: NavHostController) {
         Spacer(modifier = Modifier.height(40.dp))
 
         Text(
+            modifier = Modifier.testTag("WelcomeText"),
             text = stringResource(R.string.welcome_text),
             style = TextStyle(
                 fontSize = 30.sp,
@@ -79,6 +82,7 @@ fun StartScreen(navController: NavHostController) {
         Spacer(modifier = Modifier.height(40.dp))
 
         Text(
+            modifier = Modifier.testTag("ChoiceInfoText"),
             text = stringResource(R.string.choice_text),
             style = TextStyle(
                 fontSize = 20.sp,
@@ -108,7 +112,8 @@ fun StartScreen(navController: NavHostController) {
         Box(
             contentAlignment = Alignment.Center
         ) {
-            Button(onClick = { navController.navigate("measurement")}) {
+            Button(onClick = { navController.navigate("measurement")},
+                modifier = Modifier.testTag("SaveMeasurementsButton")) {
                 Text(text = stringResource(R.string.measurement_button),
                     style = TextStyle(
                         fontSize = 18.sp
@@ -122,7 +127,8 @@ fun StartScreen(navController: NavHostController) {
         Box(
             contentAlignment = Alignment.Center
         ) {
-            Button(onClick = { navController.navigate("measurements_list")}) {
+            Button(onClick = { navController.navigate("measurement_list")},
+                modifier = Modifier.testTag("MeasurementListButton")) {
                 Text(text = stringResource(R.string.measurement_list_button),
                     style = TextStyle(
                         fontSize = 18.sp

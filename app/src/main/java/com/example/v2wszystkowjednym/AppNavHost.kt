@@ -13,7 +13,7 @@ fun AppNavHost(navController: NavHostController, dbHelper: DatabaseHelper) {
         composable("start") { StartScreen(navController)}
         composable("bmi") { BmiScreen(navController, dbHelper)}
         composable("measurement"){ MeasurementScreen(navController, dbHelper)}
-        composable("measurements_list"){ MeasurementListScreen(navController, dbHelper)
+        composable("measurement_list"){ MeasurementListScreen(navController, dbHelper)
         }
     }
 

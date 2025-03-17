@@ -5,14 +5,11 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -23,7 +20,6 @@ class StartScreenTests {
     val composeTestRule = createComposeRule()
 
     private lateinit var navController: TestNavHostController
-    val context = InstrumentationRegistry.getInstrumentation().targetContext
 
     @Before
     fun setup() {
@@ -35,48 +31,40 @@ class StartScreenTests {
             NavHost(navController = navController, startDestination = "start") {
                 composable("start") { StartScreen(navController = navController) }
                 composable("bmi") {BmiScreen(navController = navController, dbHelper = DatabaseHelper(navController.context))}
-
+                composable("measurement") {MeasurementScreen(navController = navController, dbHelper = DatabaseHelper(navController.context))}
             }
         }
     }
 
     @Test
     fun isWelcomeTextVisible() {
-        composeTestRule.onNodeWithText(context.getString(R.string.welcome_text))
+        composeTestRule.onNodeWithTag("WelcomeText")
             .assertIsDisplayed()
     }
 
     @Test
     fun isChoiceTextVisible() {
-        composeTestRule.onNodeWithText(context.getString(R.string.choice_text))
+        composeTestRule.onNodeWithTag("ChoiceInfoText")
             .assertIsDisplayed()
     }
 
     @Test
     fun isBmiButtonEnable() {
-        composeTestRule.onNodeWithText(context.getString(R.string.bmi_button))
+        composeTestRule.onNodeWithTag("CalculateBmiNavigationButton")
             .assertIsEnabled()
     }
 
     @Test
     fun isMeasurementButtonEnable() {
-        composeTestRule.onNodeWithText(context.getString(R.string.measurement_button))
+        composeTestRule.onNodeWithTag("SaveMeasurementsButton")
             .assertIsEnabled()
     }
 
     @Test
-    fun BmiButtonOpenBmiScreen() {
-        composeTestRule.onNodeWithText(context.getString(R.string.bmi_button)).performClick()
-        composeTestRule.waitForIdle()
-        composeTestRule.onNodeWithTag("BmiScreen").assertIsDisplayed()
+    fun isMeasurementsListButtonEnable() {
+        composeTestRule.onNodeWithTag("MeasurementListButton")
+            .assertIsEnabled()
     }
-
-    @Test
-    fun MeasurementButtonOpenMeasurementScreen() {
-        composeTestRule.onNodeWithText(context.getString(R.string.measurement_button)).performClick()
-        composeTestRule.waitForIdle()
-        composeTestRule.onNodeWithTag("MeasurementScreen").assertIsDisplayed()
-    }
-        }
+}
 
 

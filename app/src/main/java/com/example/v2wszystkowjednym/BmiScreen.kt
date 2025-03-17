@@ -1,3 +1,4 @@
+import android.graphics.drawable.Icon
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -5,6 +6,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,6 +18,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -48,13 +53,24 @@ fun BmiScreen(navController: NavHostController, dbHelper: DatabaseHelper) {
             contentScale = ContentScale.FillBounds
         )
 
+        IconButton(onClick = {navController.navigate("start")}) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Back arrow",
+                modifier = Modifier
+                    .size(30.dp)
+                    .offset(6.dp, 6.dp)
+                    .testTag("BackArrow")
+            )
+        }
+
         Text(
             text = stringResource(R.string.bmi_header),
             fontSize = 24.sp,
             color = Color(0xFF6200EA),
             modifier = Modifier
                 .constrainAs(bmiInfoText) {
-                top.linkTo(parent.top, margin = 16.dp)
+                top.linkTo(parent.top, margin = 46.dp)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             }
@@ -219,4 +235,13 @@ fun BmiScreen(navController: NavHostController, dbHelper: DatabaseHelper) {
 
 private fun calculateBMI(weight: Double, height: Double, navController: NavHostController): BigDecimal {
     return BigDecimal(weight / (height * height / 10000)).setScale(2, RoundingMode.HALF_UP)
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BmiScreenPreview() {
+    val navController = rememberNavController()
+    val dbHelper = DatabaseHelper(navController.context)
+
+    BmiScreen(navController = navController, dbHelper = dbHelper)
 }

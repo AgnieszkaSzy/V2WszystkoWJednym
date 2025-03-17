@@ -40,12 +40,10 @@ class BmiScreenTests {
         navController.navigatorProvider.addNavigator(ComposeNavigator())
 
         composeTestRule.setContent {
-            NavHost(navController = navController, startDestination = "start") {
-                composable("start") { StartScreen(navController = navController) }
+            NavHost(navController = navController, startDestination = "bmi") {
                 composable("bmi") {BmiScreen(navController = navController, dbHelper = DatabaseHelper(navController.context))}
             }
         }
-        composeTestRule.onNodeWithTag("CalculateBmiNavigationButton").performClick()
     }
 
     @Test

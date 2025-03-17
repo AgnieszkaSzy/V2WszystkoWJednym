@@ -10,4 +10,8 @@
     <string name="gender_text">Gender</string>
     <string name="female_radiobutton_text">Female</string>
     <string name="male_radiobutton_text">Male</string>
+    <string name="enter_data_text">Enter your data:</string>
+    <string name="measurement_date">Date of measurement: </string>
+    <string name="height_field">Your height: </string>
+    <string name="weight_field">Your weight: </string>
 </resources>
