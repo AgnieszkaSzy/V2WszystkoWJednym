@@ -1,7 +1,7 @@
 package com.example.v2wszystkowjednym
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
@@ -25,7 +24,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -36,6 +38,10 @@ fun MeasurementScreen(navController: NavHostController, dbHelper: DatabaseHelper
     var date by remember { mutableStateOf("") }
     var height by remember { mutableStateOf("") }
     var weight by remember { mutableStateOf("") }
+    var errorText by remember { mutableStateOf(false) }
+
+    var context = LocalContext.current
+    var focus = LocalFocusManager.current
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -112,7 +118,13 @@ fun MeasurementScreen(navController: NavHostController, dbHelper: DatabaseHelper
                 onClick = {
                     if (date.isNotEmpty() && height.isNotEmpty() && weight.isNotEmpty()) {
                         dbHelper?.insertMeasurement(date, height.toFloat(), weight.toFloat())
-                    }
+                        errorText = false
+                        date = ""
+                        height = ""
+                        weight = ""
+                        focus.clearFocus()
+                        Toast.makeText(context, "Data has been saved successfully.", Toast.LENGTH_LONG).show()
+                    } else {errorText = true}
                 },
                 modifier = Modifier
                     .offset(16.dp)
@@ -120,8 +132,21 @@ fun MeasurementScreen(navController: NavHostController, dbHelper: DatabaseHelper
             ) {
                 Text("Save")
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            if (errorText) {
+                Text(
+                    text = stringResource(R.string.error_text),
+                    color = Color.Red,
+                    modifier = Modifier
+                        .offset(16.dp)
+                        .testTag("EmptyFieldErrorText"),
+                )
+            }
         }
     }
 }
+
 
 data class Measurement(val date: String, val height: Float, val weight: Float)

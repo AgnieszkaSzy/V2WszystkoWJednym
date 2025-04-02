@@ -1,10 +1,12 @@
 package com.example.v2wszystkowjednym
 
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.NavHost
@@ -81,5 +83,23 @@ class MeasurementScreenTests {
     fun shouldDisplayEnteredValueInWeightField() {
         composeTestRule.onNodeWithTag("WeightField").performTextInput("60")
         composeTestRule.onNodeWithTag("WeightField").assertTextContains("60")
+    }
+
+    @Test
+    fun shouldShowErrorWhenEmptyField() {
+        composeTestRule.onNodeWithTag("SaveButton").performClick()
+        composeTestRule.onNodeWithTag("EmptyFieldErrorText").assertIsDisplayed()
+    }
+
+    @Test
+    fun shouldClearFieldsWhenSavedDataCorrectly() {
+        composeTestRule.onNodeWithTag("MeasurementDate").performTextInput("14.03.2025")
+        composeTestRule.onNodeWithTag("HeightField").performTextInput("170")
+        composeTestRule.onNodeWithTag("WeightField").performTextInput("60")
+        composeTestRule.onNodeWithTag("SaveButton").performClick()
+        composeTestRule.onNodeWithTag("MeasurementDate").assertTextContains("")
+        composeTestRule.onNodeWithTag("HeightField").assertTextContains("")
+        composeTestRule.onNodeWithTag("WeightField").assertTextContains("")
+        composeTestRule.onNodeWithTag("EmptyFieldErrorText").assertIsNotDisplayed()
     }
 }
